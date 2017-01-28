@@ -25,5 +25,6 @@ def get_top_n_words(word_list, n):
     """
     pass
 
-if "__name__" == "__main__":
+if __name__ == "__main__":
+    print("Running WordFrequency Toolbox")
     print(string.punctuation)
