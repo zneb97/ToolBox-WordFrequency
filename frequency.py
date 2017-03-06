@@ -49,6 +49,7 @@ def get_top_n_words(word_list, n):
     wordDict = {}
     for word in word_list:
         wordDict.update({word:word_list.count(word)})
+    #Keep frequencies
     wordFreq = wordDict.items()
     wordFreq = sorted(wordFreq, key=lambda x: x[1], reverse = True)
 
