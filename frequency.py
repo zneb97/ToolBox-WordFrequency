@@ -2,6 +2,7 @@
 Project Gutenberg """
 
 import string
+import operator
 
 
 def get_word_list(file_name):
@@ -10,7 +11,28 @@ def get_word_list(file_name):
     returns a list of the words used in the book as a list.
     All words are converted to lower case.
     """
-    pass
+    f = open(file_name, 'r')
+    lines = f.readlines()
+
+    start_line = 0
+    while lines[start_line].find('START OF THIS') == -1:
+        start_line += 1
+
+    end_line = 0
+    while lines[end_line].find('THE END') == -1:
+        end_line += 1
+
+    lines = lines[start_line+1:end_line-1]
+
+    words = []
+    for line in lines:
+        line = line.lower()
+        line = line.translate(line.maketrans("","", string.punctuation))
+        line = line.strip()
+        linebreak = line.split()
+        for word in linebreak:
+            words.append(word)
+    return words
 
 
 def get_top_n_words(word_list, n):
@@ -23,8 +45,19 @@ def get_top_n_words(word_list, n):
     returns: a list of n most frequently occurring words ordered from most
     frequently to least frequentlyoccurring
     """
-    pass
+    topWords = []
+    wordDict = {}
+    for word in word_list:
+        wordDict.update({word:word_list.count(word)})
+    wordFreq = wordDict.items()
+    wordFreq = sorted(wordFreq, key=lambda x: x[1], reverse = True)
+
+    for i in range(0,n):
+        topWords.append(wordFreq[i])
+    return topWords
 
 if __name__ == "__main__":
-    print("Running WordFrequency Toolbox")
-    print(string.punctuation)
+    words = get_word_list('alice.txt')
+    topWords = (get_top_n_words(words,100))
+    for i in range(0,len(topWords)):
+        print(topWords[i])
